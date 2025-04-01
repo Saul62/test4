@@ -72,16 +72,18 @@ if st.button('Predict'):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_data)
     
-    # Plot force plot
-    plt.figure(figsize=(15, 4))
+    # Plot force plot with adjusted size and layout
+    plt.figure(figsize=(20, 5))  # 增加宽度，调整高度
     shap.force_plot(
         explainer.expected_value,
         shap_values[0],
         input_data.iloc[0],
         matplotlib=True,
-        show=False
+        show=False,
+        text_rotation=45  # 旋转文本以避免重叠
     )
-    plt.tight_layout()
+    plt.margins(x=0.1)  # 添加水平边距
+    plt.tight_layout(pad=2.0)  # 增加边距空间
     st.pyplot(plt)
     plt.close()
 
