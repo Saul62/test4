@@ -73,15 +73,17 @@ if st.button('Predict'):
     shap_values = explainer.shap_values(input_data)
     
     # Plot force plot
-    plt.figure(figsize=(15, 4))
+    plt.figure(figsize=(15, 6))
     shap.force_plot(
         explainer.expected_value,
         shap_values[0],
         input_data.iloc[0],
         matplotlib=True,
-        show=False
+        show=False,
+        text_rotation=0
     )
-    plt.tight_layout()
+    plt.gcf().set_facecolor('white')
+    plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.2)  
     st.pyplot(plt)
     plt.close()
 
