@@ -11,7 +11,7 @@ st.set_page_config(page_title="Severe pneumonia in children", layout="wide")
 # Load model
 @st.cache_resource
 def load_model():
-    model = load('d:\\Workspace\\xianyu\\Catboost_401_200\\model.pkl')
+    model = load('model.pkl')  # 使用相对路径
     return model
 
 model = load_model()
