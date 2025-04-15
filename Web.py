@@ -6,7 +6,7 @@ import shap
 import matplotlib.pyplot as plt
 
 # 设置页面标题和全局字体大小
-st.set_pAge_config(pAge_title="Crohn's Disease Prediction Model", layout="wide")
+st.set_pAge_config(page_title="Crohn's Disease Prediction Model", layout="wide")
 
 # 增大全局字体大小的CSS
 st.markdown("""
