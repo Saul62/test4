@@ -211,7 +211,7 @@ st.sidebar.info("""
 st.sidebar.title("Feature Description")
 st.sidebar.markdown("""
 - **Abdominal pain lasting for at least one month**: Persistent abdominal pain for more than one month
-- **Perianal diseases**: Presence of perianal disease
+- **Perianal disease**: Presence of perianal disease
 - **Weight loss**: Significant weight loss
 - **Age**: Patient's age in years
 - **BMI**: Body Mass Index (kg/m²)
