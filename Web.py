@@ -213,11 +213,11 @@ st.sidebar.markdown("""
 - **Abdominal pain lasting for at least one month**: Persistent abdominal pain for more than one month
 - **Perianal diseases**: Presence of perianal disease
 - **Weight loss**: Significant weight loss
-- **Age**: Patient's Age in years
+- **Age**: Patient's age in years
 - **BMI**: Body Mass Index (kg/m²)
 - **Hemoglobin (Hb)**: Hemoglobin level in g/L
 - **Platelet count (PLT)**: Platelet count in 10^9/L
-- **Mean corpuscular volume (MCV)**: AverAge red blood cell volume in fL
+- **Mean corpuscular volume (MCV)**: Average red blood cell volume in fL
 - **Lymphocyte count (LYM)**: Lymphocyte cell count in 10^9/L
 - **Albumin (ALB)**: Albumin level in g/L
 """)
