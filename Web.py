@@ -6,7 +6,7 @@ import shap
 import matplotlib.pyplot as plt
 
 # 设置页面标题和全局字体大小
-st.set_page_config(page_title="Crohn's Disease Prediction Model", layout="wide")
+st.set_pAge_config(pAge_title="Crohn's Disease Prediction Model", layout="wide")
 
 # 增大全局字体大小的CSS
 st.markdown("""
@@ -54,7 +54,7 @@ with col1:
     abdominal_pain = st.selectbox('Abdominal pain lasting for at least one month', ['No', 'Yes'])
     perianal_diseases = st.selectbox('Perianal disease', ['No', 'Yes'])
     weight_loss = st.selectbox('Weight loss', ['No', 'Yes'])
-    age = st.number_input('Age (years)', value=30, format="%d")
+    Age = st.number_input('Age (years)', value=30, format="%d")
     bmi = st.number_input('BMI (kg/m²)', value=22.0, format="%.1f")
 
 with col2:
@@ -71,7 +71,7 @@ if st.button('Predict'):
         'Abdominal_pain': [abdominal_pain],
         'Perianal_diseases': [perianal_diseases],
         'Weight_loss': [weight_loss],
-        'age': [age],
+        'Age': [Age],
         'BMI': [bmi],
         'Hb': [hb],
         'PLT': [plt_count],
@@ -86,7 +86,7 @@ if st.button('Predict'):
     for col in categorical_features:
         input_data_model[col] = input_data_model[col].map({'Yes': 1, 'No': 0})
     
-    expected_columns = ['Abdominal_pain', 'Perianal_diseases', 'Weight_loss', 'age', 'BMI', 'Hb', 'PLT', 'MCV', 'LYM', 'ALB']
+    expected_columns = ['Abdominal_pain', 'Perianal_diseases', 'Weight_loss', 'Age', 'BMI', 'Hb', 'PLT', 'MCV', 'LYM', 'ALB']
     input_data_model = input_data_model[expected_columns]
     
     # 进行预测
@@ -170,7 +170,7 @@ if st.button('Predict'):
     
     # 将特征名称映射为更易读的形式
     feature_mapping = {
-        'age': 'Age (years)',
+        'Age': 'Age (years)',
         'BMI': 'BMI (kg/m²)',
         'Hb': 'Hemoglobin (Hb) (g/L)',
         'PLT': 'Platelet count (PLT) (10^9/L)',
@@ -211,13 +211,13 @@ st.sidebar.info("""
 st.sidebar.title("Feature Description")
 st.sidebar.markdown("""
 - **Abdominal pain lasting for at least one month**: Persistent abdominal pain for more than one month
-- **Perianal disease**: Presence of perianal disease
+- **Perianal diseases**: Presence of perianal disease
 - **Weight loss**: Significant weight loss
-- **Age**: Patient's age in years
+- **Age**: Patient's Age in years
 - **BMI**: Body Mass Index (kg/m²)
 - **Hemoglobin (Hb)**: Hemoglobin level in g/L
 - **Platelet count (PLT)**: Platelet count in 10^9/L
-- **Mean corpuscular volume (MCV)**: Average red blood cell volume in fL
+- **Mean corpuscular volume (MCV)**: AverAge red blood cell volume in fL
 - **Lymphocyte count (LYM)**: Lymphocyte cell count in 10^9/L
 - **Albumin (ALB)**: Albumin level in g/L
 """)
