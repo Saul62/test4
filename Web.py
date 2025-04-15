@@ -52,7 +52,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     abdominal_pain = st.selectbox('Abdominal pain lasting for at least one month', ['No', 'Yes'])
-    perianal_diseases = st.selectbox('Perianal diseases', ['No', 'Yes'])
+    perianal_diseases = st.selectbox('Perianal disease', ['No', 'Yes'])
     weight_loss = st.selectbox('Weight loss', ['No', 'Yes'])
     age = st.number_input('Age (years)', value=30, format="%d")
     bmi = st.number_input('BMI (kg/m²)', value=22.0, format="%.1f")
@@ -61,7 +61,7 @@ with col2:
     hb = st.number_input('Hemoglobin (Hb) (g/L)', value=120.0, format="%.1f")
     plt_count = st.number_input('Platelet count (PLT) (10^9/L)', value=200.0, format="%.1f")
     mcv = st.number_input('Mean corpuscular volume (MCV) (fL)', value=85.0, format="%.1f")
-    lym = st.number_input('Lymphocyte count (LYM) (10^9/L)', value=1.5, format="%.2f")
+    lym = st.number_input('Lymphocyte cell count (LYM) (10^9/L)', value=1.5, format="%.2f")
     alb = st.number_input('Albumin (ALB) (g/L)', value=40.0, format="%.1f")
 
 # 创建预测按钮
@@ -80,15 +80,12 @@ if st.button('Predict'):
         'ALB': [alb]
     })
     
-    # 转换分类变量为数值
     categorical_features = ['Abdominal_pain', 'Perianal_diseases', 'Weight_loss']
     input_data_model = input_data.copy()
     
-    # 将分类变量转换为数值型，但不进行独热编码
     for col in categorical_features:
         input_data_model[col] = input_data_model[col].map({'Yes': 1, 'No': 0})
     
-    # 确保列的顺序正确
     expected_columns = ['Abdominal_pain', 'Perianal_diseases', 'Weight_loss', 'age', 'BMI', 'Hb', 'PLT', 'MCV', 'LYM', 'ALB']
     input_data_model = input_data_model[expected_columns]
     
@@ -118,7 +115,6 @@ if st.button('Predict'):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_data_model)
     
-    # 如果shap_values是列表（多类别问题），取第1个元素（正类的SHAP值）
     if isinstance(shap_values, list) and len(shap_values) > 1:
         shap_values_plot = shap_values[1]
         expected_value = explainer.expected_value[1] if isinstance(explainer.expected_value, list) else explainer.expected_value
@@ -126,7 +122,7 @@ if st.button('Predict'):
         shap_values_plot = shap_values
         expected_value = explainer.expected_value
     
-    # 使用瀑布图代替力图，这不需要JavaScript，并且减小图表尺寸
+    # 使用瀑布图代替力图
     st.write("SHAP Waterfall Plot (showing how each feature contributes to the prediction):")
     
     # 创建SHAP解释对象
@@ -137,14 +133,14 @@ if st.button('Predict'):
         feature_names=list(input_data_model.columns)
     )
     
-    # 绘制瀑布图 - 减小尺寸
+    # 绘制瀑布图 
     plt.figure(figsize=(8, 6))
     shap.plots.waterfall(shap_explanation, max_display=10, show=False)
     plt.tight_layout()
     st.pyplot(plt)
     plt.close()
     
-    # 另外添加一个决策图，它也是静态的，可以显示特征如何影响预测 - 减小尺寸
+    # 决策图
     st.write("SHAP Decision Plot:")
     plt.figure(figsize=(8, 6))
     shap.decision_plot(expected_value, shap_values_plot[0], input_data_model.iloc[0], 
@@ -153,14 +149,12 @@ if st.button('Predict'):
     st.pyplot(plt)
     plt.close()
     
-    # 删除了SHAP力图代码
-    
     # 显示特征重要性说明
     st.write("---")
     st.subheader("Feature Contribution Analysis")
     
     # 获取特征重要性 - 修复SHAP值处理
-    # 确保SHAP值是一维数组
+
     if isinstance(shap_values, list) and len(shap_values) > 1:
         # For binary classification, use class 1 (positive class)
         shap_values_processed = shap_values[1][0]
@@ -176,18 +170,19 @@ if st.button('Predict'):
     
     # 将特征名称映射为更易读的形式
     feature_mapping = {
-        'age': 'Age',
-        'BMI': 'BMI',
-        'Hb': 'Hemoglobin',
-        'PLT': 'Platelet count',
-        'MCV': 'Mean corpuscular volume',
-        'LYM': 'Lymphocyte count',
-        'ALB': 'Albumin',
+        'age': 'Age (years)',
+        'BMI': 'BMI (kg/m²)',
+        'Hb': 'Hemoglobin (Hb) (g/L)',
+        'PLT': 'Platelet count (PLT) (10^9/L)',
+        'MCV': 'Mean corpuscular volume (MCV) (fL)',
+        'LYM': 'Lymphocyte cell count (LYM) (10^9/L)',
+        'ALB': 'Albumin (ALB) (g/L)',
         'Abdominal_pain': 'Abdominal pain lasting for at least one month',
-        'Perianal_diseases': 'Perianal diseases',
+        'Perianal_diseases': 'Perianal disease',
         'Weight_loss': 'Weight loss'
     }
     
+
     feature_importance['Feature'] = feature_importance['Feature'].map(feature_mapping)
     
     # 显示特征重要性表格
@@ -216,14 +211,14 @@ st.sidebar.info("""
 st.sidebar.title("Feature Description")
 st.sidebar.markdown("""
 - **Abdominal pain lasting for at least one month**: Persistent abdominal pain for more than one month
-- **Perianal diseases**: Presence of perianal diseases
+- **Perianal diseases**: Presence of perianal disease
 - **Weight loss**: Significant weight loss
 - **Age**: Patient's age in years
 - **BMI**: Body Mass Index (kg/m²)
 - **Hemoglobin (Hb)**: Hemoglobin level in g/L
 - **Platelet count (PLT)**: Platelet count in 10^9/L
 - **Mean corpuscular volume (MCV)**: Average red blood cell volume in fL
-- **Lymphocyte count (LYM)**: Lymphocyte count in 10^9/L
+- **Lymphocyte count (LYM)**: Lymphocyte cell count in 10^9/L
 - **Albumin (ALB)**: Albumin level in g/L
 """)
 
