@@ -38,7 +38,7 @@ st.markdown("""
 # 加载模型
 @st.cache_resource
 def load_model():
-    model = load('d:\\Workspace\\xianyu\\gbm200\\GBM_model.pkl')
+    model = load('GBM_model.pkl')
     return model
 
 model = load_model()
